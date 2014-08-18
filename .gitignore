@@ -2,7 +2,7 @@
 .Rhistory
 .RData
 .Rbuildignore
-datapackager.Rproj
+*.Rproj
 *.DS_Store
 
 

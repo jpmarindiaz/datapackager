@@ -3,5 +3,6 @@
 .RData
 .Rbuildignore
 datapackager.Rproj
+*.DS_Store
 
 

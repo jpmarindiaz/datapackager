@@ -1,0 +1,89 @@
+{
+    "name": "gdp",
+    "title": "country, regional",
+    "description": "country description",
+    "keywords": [],
+    "last_updated": "",
+    "license": "",
+    "sources": [],
+    "resources": [{
+        "name": "tableA",
+        "id": "tableA",
+        "description": "my description",
+        "path": "data/test.csv",
+        "remote": {
+            "security": "public",
+            "provider": ""
+        },
+        "mediatype": "text/csv",
+        "format": "csv",
+        "dialect": {
+            "delimiter": ","
+        },
+        "schema": {
+            "fields": [{
+                "name": "contry name",
+                "description": "iso name",
+                "type": "string",
+                "format": "XX",
+                "attributes": {
+                    "id": "a",
+                    "datatype": "C",
+                    "label": "contry name"
+                }
+            }, {
+                "name": "value",
+                "description": "population number",
+                "type": "number",
+                "format": "int",
+                "attributes": {
+                    "id": "b",
+                    "datatype": "N",
+                    "label": "value"
+                }
+            }]
+
+        },
+        "data": []
+    }, {
+        "name": "tableB",
+        "id": "tableB",
+        "description": "my description",
+        "path": "data/test.csv",
+        "remote": {
+            "security": "public",
+            "remote": ""
+        },
+        "mediatype": "text/csv",
+        "format": "csv",
+        "dialect": {
+            "delimiter": ","
+        },
+        "schema": {
+            "fields": [{
+                "name": "contry name",
+                "description": "iso name",
+                "type": "string",
+                "format": "XX",
+                "attributes": {
+                    "id": "a",
+                    "datatype": "C",
+                    "label": "contry name"
+                }
+            }, {
+                "name": "value",
+                "description": "population number",
+                "type": "number",
+                "format": "int",
+                "attributes": {
+                    "id": "b",
+                    "datatype": "N",
+                    "label": "value"
+                }
+            }]
+
+        },
+        "data": []
+    }]
+
+}

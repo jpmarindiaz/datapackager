@@ -1,0 +1,18 @@
+Package: datapackager
+Type: Package
+Title: datapackager
+Version: 0.1.0
+Date: 2014-08-01
+Author: Juan Pablo Marin Diaz
+Maintainer: Juan Pablo Marin Diaz <jpmarindiaz@gmail.com>
+Description: R package for working with datapackage specification
+    (http://dataprotocols.org/data-packages/) files and working with csv
+    resources.
+License: GPL-3
+BugReports: https://github.com/aentropico/datapackager/issues
+LazyData: true
+Depends:
+    R (>= 3.0.0)
+Imports:
+    RJSONIO,
+    httr

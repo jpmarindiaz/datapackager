@@ -1,0 +1,89 @@
+{
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+       "resources": {
+           "type": "array",
+           "required": true,
+           "minItems": 1,
+           "items": {
+               "type": "object",
+               "additionalProperties": false,
+               "properties": {
+                   "tableId": {
+                       "required": true,
+                       "type": "string"
+                   },
+                   "label": {
+                       "required": true,
+                       "type": "string"
+                   },
+                   "format": {
+                       "required": true,
+                       "type": "string",
+                       "pattern": "csv"
+                   },
+                   "description": {
+                       "type": "string",
+                       "optional": true
+                   },
+                   "schema": {
+                       "type": "object",
+                       "additionalProperties": false,
+                       "properties": {
+                           "fields": {
+                               "type": "array",
+                               "minItems": 1,
+                               "required": true,
+                               "items": {
+                                   "type": "object",
+                                   "additionalProperties": false,
+                                   "properties": {
+                                       "columnId": {
+                                           "type": "string",
+                                           "required": true
+                                       },
+                                       "label": {
+                                           "type": "string",
+                                           "required": true
+                                       },
+                                       "description": {
+                                           "type": "string",
+                                           "required": true
+                                       },
+                                       "dataType": {
+                                           "type": "string",
+                                           "required": true,
+                                           "pattern": "N|C|O|D"
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                   },
+                   "src": {
+                       "type": "object",
+                       "additionalProperties": false,
+                       "properties": {
+                           "kind": {
+                               "type": "string",
+                               "required": true,
+                               "pattern": "public|private"
+                           },
+                           "name": {
+                               "type": "string",
+                               "required": true,
+                               "pattern": "s3-aentropico|public"
+                           },
+                           "url": {
+                               "type": "string",
+                               "required": true,
+                               "pattern": "(ftp|http|https)😕/\/([a-zA-Z0-9_]+:{0,1}[a-zA-Z0-9_]*@)?([^\r\n\t\f ]+)(:[0-9]+)?(\/|\/([a-zA-Z0-9_#!:.?+=&%@!/]))?"
+                           }
+                       }
+                   }
+               }
+           }
+       }
+   }
+}

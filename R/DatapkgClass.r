@@ -1,3 +1,8 @@
+#' Datapackage class description
+#'
+#' @import methods
+#' @export Datapackage
+#' @exportClass Datapackage
 Datapackage <- setRefClass('Datapackage', 
                       fields = list(
                         name = "character",

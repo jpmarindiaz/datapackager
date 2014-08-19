@@ -276,7 +276,7 @@ writeDatapackage <- function(dp, path="."){
   write_file(jsonstr, file.path(path,"datapackage.json")) 
 }
 
-#' Datapackage to JSON
+#' Datapackage to JSON, removes data before transforming to JSON
 #' @name dpToJSON
 #' @description Write datapackage in json
 #' @param dp
@@ -285,5 +285,44 @@ writeDatapackage <- function(dp, path="."){
 #' @examples \dontrun{
 #' }
 dpToJSON <- function(dp){
-  dp$toJSON()
+  l <- dp$asList()   
+  l <- emptyToNULL(l)   
+  l <- removeNull(l)
+  # l <- lapply(seq_along(l$resources),function(i){
+  #   l$resources[[i]]$data <- NULL
+  # })
+  listToJSON(l)
+}
+
+#' @export
+emptyToNULL <- function(l){
+  Map(function(i){
+    if(class(i)=="character" && nchar(i)>0) {
+      return(i)
+#     } else if(class(i)=="data.frame" && !is.empty(i)){
+#       return (i)
+    } else if(class(i)=="Datatbl"){
+      return (emptyToNULL(i$asList()))
+    } else if(class(i)=="Field"){
+      return (emptyToNULL(i$asList()))
+    }    
+    else if(class(i)=="list"){ 
+      if(length(i)==0){
+        return(NULL)
+      } else {
+        return(emptyToNULL(i))
+      }
+    } else{
+      NULL
+    }
+  },l) 
+}
+
+#' @export
+removeNull <- function( x ){  
+  x <- x[ !sapply( x, is.null ) ]
+  if( is.list(x) ){
+    x <- lapply( x, removeNull)
+  }
+  return(x)
 }

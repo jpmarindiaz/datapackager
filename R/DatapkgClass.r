@@ -101,38 +101,7 @@ Datapackage <- setRefClass('Datapackage',
                       )
 ) 
 
-#' @export
-emptyToNULL <- function(l){
-  Map(function(i){
-    if(class(i)=="character" && nchar(i)>0) {
-      return(i)
-    } else if(class(i)=="data.frame" && !is.empty(i)){
-      return (i)
-    } else if(class(i)=="Datatbl"){
-      return (emptyToNULL(i$asList()))
-    } else if(class(i)=="Field"){
-      return (emptyToNULL(i$asList()))
-    }    
-    else if(class(i)=="list"){ 
-      if(length(i)==0){
-        return(NULL)
-      } else {
-        return(emptyToNULL(i))
-      }
-    } else{
-      NULL
-    }
-  },l) 
-}
 
-#' @export
-removeNull <- function( x ){  
-  x <- x[ !sapply( x, is.null ) ]
-  if( is.list(x) ){
-    x <- lapply( x, removeNull)
-  }
-  return(x)
-}
 
 
 

@@ -62,7 +62,6 @@ getDataframes(dp)
 load_all()
 df <- mtcars
 dp <- newDatapkg(cars)
-dp
 
 d <- list(a = mtcars,tab2 = cars)
 dp <- newDatapkg(d)

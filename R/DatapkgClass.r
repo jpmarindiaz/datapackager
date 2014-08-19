@@ -4,7 +4,6 @@
 #' @import methods
 #' @export Datapackage
 #' @exportClass Datapackage
-#' @field
 Datapackage <- setRefClass('Datapackage', 
                       fields = list(
                         name = "character",

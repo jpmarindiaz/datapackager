@@ -3,8 +3,11 @@
 \name{Datapackage-class}
 \alias{Datapackage}
 \alias{Datapackage-class}
-\title{Datapackage class description}
+\title{Datapackage class}
 \description{
+Description of Datapackage class
+}
+\details{
 Datapackage class description
 }
 

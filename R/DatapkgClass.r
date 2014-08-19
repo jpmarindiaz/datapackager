@@ -35,6 +35,8 @@ Datapackage <- setRefClass('Datapackage',
                             out
                           })
                           names(l) <- names(flds)
+                          l <- emptyToNULL(l) 
+                          l <- removeNull(l)
                           listToJSON(l)
                         },
                         fromJSON = function(dp.json){
@@ -97,7 +99,7 @@ emptyToNULL <- function(l){
   Map(function(i){
     if(class(i)=="character" && nchar(i)>0) {
       return(i)
-    } else if(class(i)=="data.frame"){
+    } else if(class(i)=="data.frame" && !is.empty(i)){
       return (i)
     } else if(class(i)=="Datatbl"){
       return (emptyToNULL(i$asList()))

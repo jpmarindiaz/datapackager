@@ -18,3 +18,9 @@ read_file <- function (file, warn = F, ...)
 {
   paste(readLines(file, warn = warn, ...), collapse = "\n")
 }
+
+write_file <- function (x, file) 
+{
+  dir.create(dirname(file),showWarnings = FALSE, recursive = TRUE)
+  writeLines(x, file)
+}

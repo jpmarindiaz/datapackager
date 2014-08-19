@@ -86,7 +86,10 @@ getDataframe <- function(dp, dtIdx = 1, withNames = FALSE){
 #' }
 
 getDataframes <- function(dp, withNames = FALSE){
-  l <- lapply(seq_along(dp$resources),function(i){getDataframe(dp, dtIdx=i, withNames)})
+  l <- lapply(seq_along(dp$resources),function(i){
+    # i <- 1
+    getDataframe(dp, dtIdx=i, withNames)
+    })
   names(l) <- Map(function(tbl){tbl$name},dp$resources)
   l
 }
@@ -245,6 +248,32 @@ getDateiSample <- function(dateiId, asDp = FALSE, random=TRUE){
       )
   if(asDp) {d <- newDatapkg(d)}
   d
+}
+
+#' Write datapackage in json
+#' @name WriteDatapackage
+#' @description Write datapackage in json
+#' @param dp
+#' @return logical TRUE if successful, FALSE if directory already exists
+#' @export
+#' @examples \dontrun{
+#' mysite <- "/home/david/github/mysite"
+#' skeleton(mysite)
+#' }
+writeDatapackage <- function(dp, path="."){  
+  l <- getDataframes(dp, withNames = TRUE)
+  lapply(seq_along(l),function(i){
+    # Write csv files
+    filename <- file.path(path,paste0(names(l)[i],".csv"))
+    dp$resources[[i]]$path <- basename(filename)
+    dir.create(dirname(filename),showWarnings = FALSE, recursive = TRUE)
+    write.csv(l[[i]],filename,row.names = FALSE)
+    message("dataframe written to: ", filename)
+    # Clean data from dp
+    dp$resources[[i]]$data <- data.frame()
+    })  
+  jsonstr <- dp$toJSON()
+  write_file(jsonstr, file.path(path,"datapackage.json")) 
 }
 
 

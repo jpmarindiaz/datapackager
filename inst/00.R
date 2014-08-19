@@ -37,9 +37,12 @@ cat(dp$toJSON())
 
 dp.json <- read_file("inst/dp.json")
 dp <- Datapackage$new()
+dp
 dp$fromJSON(dp.json)
 dp
 loadDpData(dp, dpPath="inst")
+dp
+
 load_all()
 
 getFieldNamesByIdx(dp)
@@ -64,9 +67,8 @@ dp
 d <- list(a = mtcars,tab2 = cars)
 dp <- newDatapkg(d)
 dp
-
-
-
+writeDatapackage(dp,"tmp")
+dp$toJSON()
 
 
 

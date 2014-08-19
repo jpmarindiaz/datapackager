@@ -1,3 +1,9 @@
+#' Field class description
+#' @title Field class
+#' @description Description of Datapackage class
+#' @import methods
+#' @export Field
+#' @exportClass Field
 Field <- setRefClass('Field', 
                                    fields = list(
                                      name = "character",

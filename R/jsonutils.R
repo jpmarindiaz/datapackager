@@ -80,9 +80,16 @@ toJSONobj <- function(obj){
   out 
 }
 
+#' Datapackage class description
+#' @title JSON class
+#' @description Description of Datapackage class
+#' @import methods
+#' @export JSON
+#' @exportClass JSON
+setClass(Class = "JSON",slots = list(jsonstr = "character"))
+
 #' @export
 listToJSON <- function(x){
-  setClass(Class = "JSON",slots = list(jsonstr = "character"))
   toJSONobj(x)@jsonstr
 }
 

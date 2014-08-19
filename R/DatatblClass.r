@@ -1,3 +1,9 @@
+#' Datapackage class description
+#' @title Datatbl class
+#' @description Description of Datapackage class
+#' @import methods
+#' @export Datatbl
+#' @exportClass Datatbl
 Datatbl <- setRefClass('Datatbl', 
     fields = list(
       name = "character",

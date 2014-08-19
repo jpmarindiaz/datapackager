@@ -276,4 +276,14 @@ writeDatapackage <- function(dp, path="."){
   write_file(jsonstr, file.path(path,"datapackage.json")) 
 }
 
-
+#' Datapackage to JSON
+#' @name dpToJSON
+#' @description Write datapackage in json
+#' @param dp
+#' @return json string with the contents of the Datapackage
+#' @export
+#' @examples \dontrun{
+#' }
+dpToJSON <- function(dp){
+  dp$toJSON()
+}

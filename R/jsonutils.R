@@ -80,7 +80,7 @@ toJSONobj <- function(obj){
   out 
 }
 
-
+#' @export
 listToJSON <- function(x){
   setClass(Class = "JSON",slots = list(jsonstr = "character"))
   toJSONobj(x)@jsonstr

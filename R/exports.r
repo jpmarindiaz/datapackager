@@ -269,8 +269,8 @@ writeDatapackage <- function(dp, path="."){
     dir.create(dirname(filename),showWarnings = FALSE, recursive = TRUE)
     write.csv(l[[i]],filename,row.names = FALSE)
     message("dataframe written to: ", filename)
-    # Clean data from dp
-    dp$resources[[i]]$data <- data.frame()
+    # Do not clean data from dp, it might be used to write more datapackages
+    # dp$resources[[i]]$data <- data.frame()
     })  
   jsonstr <- dp$toJSON()
   write_file(jsonstr, file.path(path,"datapackage.json")) 

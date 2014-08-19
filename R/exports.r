@@ -272,7 +272,7 @@ writeDatapackage <- function(dp, path="."){
     # Do not clean data from dp, it might be used to write more datapackages
     # dp$resources[[i]]$data <- data.frame()
     })  
-  jsonstr <- dp$toJSON()
+  jsonstr <- dpToJSON(dp)
   write_file(jsonstr, file.path(path,"datapackage.json")) 
 }
 

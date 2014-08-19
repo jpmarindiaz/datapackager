@@ -1,8 +1,10 @@
 #' Datapackage class description
-#'
+#' @title Datapackage class
+#' @description Description of Datapackage class
 #' @import methods
 #' @export Datapackage
 #' @exportClass Datapackage
+#' @field
 Datapackage <- setRefClass('Datapackage', 
                       fields = list(
                         name = "character",
@@ -100,6 +102,7 @@ Datapackage <- setRefClass('Datapackage',
                       )
 ) 
 
+#' @export
 emptyToNULL <- function(l){
   Map(function(i){
     if(class(i)=="character" && nchar(i)>0) {
@@ -123,7 +126,7 @@ emptyToNULL <- function(l){
   },l) 
 }
 
-
+#' @export
 removeNull <- function( x ){  
   x <- x[ !sapply( x, is.null ) ]
   if( is.list(x) ){

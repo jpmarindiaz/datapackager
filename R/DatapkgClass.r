@@ -1,7 +1,6 @@
 #' Datapackage class description
 #' @title Datapackage class
 #' @description Description of Datapackage class
-#' @import methods
 #' @export Datapackage
 #' @exportClass Datapackage
 Datapackage <- setRefClass('Datapackage', 

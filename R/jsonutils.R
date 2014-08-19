@@ -22,7 +22,7 @@ toJSONArray <- function(obj, json = TRUE, nonames = TRUE){
 
 
 
-
+#' @export
 jsonObjectListToObj <- function(objl){
   if(all(lapply(objl,class)=="JSON")){
     if(is.null(names(objl))){
@@ -42,7 +42,7 @@ jsonObjectListToObj <- function(objl){
 }
 
 
-
+#' @export
 toJSONobj <- function(obj){
   if(class(obj)=="JSON"){
     message("returned same object")
@@ -83,8 +83,6 @@ toJSONobj <- function(obj){
 #' Datapackage class description
 #' @title JSON class
 #' @description Description of Datapackage class
-#' @import methods
-#' @export JSON
 #' @exportClass JSON
 setClass(Class = "JSON",slots = list(jsonstr = "character"))
 

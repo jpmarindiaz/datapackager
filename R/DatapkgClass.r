@@ -48,10 +48,10 @@ Datapackage <- setRefClass('Datapackage',
                           # dp.json <- read_file("inst/dp.json")
                           l <- RJSONIO::fromJSON(dp.json)
                           name <<- l$name
-                          title <<- l$title
-                          description <<- l$description
-                          last_updated <<- l$last_updated
-                          license <<- l$license
+                          title <<- l$title %||% ""
+                          description <<- l$description %||% ""
+                          last_updated <<- l$last_updated %||% ""
+                          license <<- l$license %||% "PDDL-1.0"
                           sources_tmp <- l$sources %||% list(list())
                           sources <<- as.list(sources_tmp[[1]])
                           tblsList <- lapply(l$resources, function(resource){
@@ -62,13 +62,13 @@ Datapackage <- setRefClass('Datapackage',
                                                 description= field$description,
                                                 type= field$type,
                                                 format= field$format,
-                                                attributes= as.list(field$attributes)
+                                                ae_field_info= as.list(field$ae_field_info)
                               )
                             })
                             tbl <- Datatbl$new(name=resource$name,
                                                description = resource$description,
-                                               path = "data/test.csv",
-                                               dialect = list(delimiter=","),
+                                               path = resource$path,
+                                               dialect = list(delimiter=unname(resource$dialect)),
                                                schema = list(fields= fieldsList),
                                                data = data.frame())
                           })

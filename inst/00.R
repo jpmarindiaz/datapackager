@@ -71,3 +71,47 @@ dp$toJSON()
 
 
 
+### Simple dp
+
+
+
+### Network Dp
+library(devtools)
+load_all()
+dataPath <- system.file("network-dp", package="datapackager")
+nodes <- read.csv(file.path(dataPath,"nodes.csv"), stringsAsFactors=FALSE)
+edges <- read.csv(file.path(dataPath,"edges.csv"), stringsAsFactors=FALSE)
+dp <- newDatapkg(list(nodes=nodes,edges=edges))
+# writeDatapackage(dp,dataPath)
+dp.json <- read_file(file.path(dataPath,"datapackage.json"))
+dp <- newDatapkg(dp.json)
+
+
+json.str <- dp.json
+dp <- Datapackage$new()
+dp$fromJSON(json.str)
+
+getDataframes(dp,withNames=TRUE)
+
+
+
+### Check structure
+
+dpStr <- dpStructure(dp)
+ae_str <- getAeDpStr(dpStr)
+
+dp.json <- read_file(file.path(dataPath,"datapackage.json"))
+dp2 <- newDatapkg(dp.json)
+dp2Str <- dpStructure(dp2)
+ae_str2 <- getAeDpStr(dp2Str)
+
+str(ae_str)
+str(ae_str2)
+
+identical(ae_str,ae_str2)
+
+
+
+
+
+

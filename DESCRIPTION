@@ -10,7 +10,7 @@ Description: R package for working with datapackage specification
     resources.
 License: GPL-3
 BugReports: https://github.com/aentropico/datapackager/issues
-LazyData: true
+LazyData: no
 Depends:
     R (>= 3.0.0)
 Imports:

@@ -6,10 +6,9 @@
 Datatbl <- setRefClass('Datatbl', 
     fields = list(
       name = "character",
-      id = "character",
       description = "character",
       path = "character",
-      remote = "list",
+      ae_resource_info = "list",
       mediatype = "character",
       format = "character",
       dialect = "list",
@@ -19,10 +18,11 @@ Datatbl <- setRefClass('Datatbl',
     methods = list(
       initialize = function(...,
                             name = "",
-                            id = "table1",
                             description = "",
                             path = "",
-                            remote = list(security="public", remote=""),
+                            ae_resource_info = list(id="table1", 
+                                                    public="true",
+                                                    resource_type="tbl"),
                             mediatype = "text/csv",
                             format = "csv",
                             dialect = list(delimiter=","),
@@ -30,10 +30,9 @@ Datatbl <- setRefClass('Datatbl',
                             data = data.frame()
                             ){
         name <<- name
-        id <<- name
-        description <<- description
-        path <<- path
-        remote <<- remote
+        description <<- description  %||% ""
+        path <<- path  %||% ""
+        ae_resource_info <<- ae_resource_info %||% list(id=name,public="true",resource_type="tbl")
         mediatype <<- mediatype
         format <<- format
         dialect <<- dialect

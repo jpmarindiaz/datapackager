@@ -9,7 +9,7 @@ Field <- setRefClass('Field',
                                      description = "character",
                                      type = "character",
                                      format = "character",
-                                     attributes = "list"
+                                     ae_field_info = "list"
                                    ),
                                    methods = list(
                                      initialize = function(...,
@@ -17,17 +17,17 @@ Field <- setRefClass('Field',
                                                            description = "",
                                                            type = "",
                                                            format = "",
-                                                           attributes = list()
+                                                           ae_field_info = list()
                                      ){
                                        name <<- name
-                                       description <<- description
-                                       type <<- type
-                                       format <<- format
-                                       l <- attributes
-                                       l$id <- attributes$id %||% "a"
-                                       l$label <- attributes$label %||% name
-                                       l$datatype <- attributes$datatype %||% "X"
-                                       attributes <<- l
+                                       description <<- description %||% ""
+                                       type <<- type  %||% ""
+                                       format <<- format  %||% ""
+                                       l <- ae_field_info
+                                       l$id <- ae_field_info$id %||% "a"
+                                       l$label <- ae_field_info$label %||% name
+                                       l$data_type <- ae_field_info$data_type %||% "X"
+                                       ae_field_info <<- l
                                        callSuper(...)
                                      },    
                                      toJSON = function(){ 

@@ -1,4 +1,3 @@
-
 {
     "name": "gdp",
     "title": "country, regional",
@@ -6,19 +5,16 @@
     "keywords": [],
     "last_updated": "",
     "license": "",
-    "sources": [{}],
+    "sources": [],
     "resources": [{
-"ae_resource_info": {
-     "privacy": true,
-     "resource_type": {
-         "type": "img | table | audio",
-         "description": ""
-     }
- },
         "name": "tableA",
         "id": "tableA",
         "description": "my description",
-        "path": "http://aedata.com/data/test.csv",
+        "path": "data/test.csv",
+        "remote": {
+            "security": "public",
+            "provider": ""
+        },
         "mediatype": "text/csv",
         "format": "csv",
         "dialect": {
@@ -28,11 +24,11 @@
             "fields": [{
                 "name": "contry name",
                 "description": "iso name",
-                "type": "date",
-                "format": "YYYY-MM-DD",
-                "ae_field_info": {
+                "type": "string",
+                "format": "XX",
+                "attributes": {
                     "id": "a",
-                    "data_type": "C",
+                    "datatype": "C",
                     "label": "contry name"
                 }
             }, {
@@ -40,7 +36,7 @@
                 "description": "population number",
                 "type": "number",
                 "format": "int",
-                "datei": {
+                "attributes": {
                     "id": "b",
                     "datatype": "N",
                     "label": "value"
@@ -85,8 +81,9 @@
                     "label": "value"
                 }
             }]
+
         },
         "data": []
     }]
-}
 
+}

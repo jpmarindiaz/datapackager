@@ -9,10 +9,10 @@ getDatatypes(dp)
 \item{dp}{datapackage}
 }
 \value{
-list of datatypes for each resource
+list of data_types for each resource
 }
 \description{
-Get datatypes for all resources in a list
+Get data_types for all resources in a list
 }
 \examples{
 \dontrun{

@@ -10,7 +10,7 @@
 
 newDatapkg <- function(d){
   if(class(d) == "data.frame"){     
-    name <- deparse(substitute(d))
+    name <- "table1"
     tbl <- newDatatblFromDataframe(d, name)
     name <- paste0(deparse(substitute(d)),"Datapackage")
     dp <- Datapackage$new(name=name,
@@ -24,6 +24,11 @@ newDatapkg <- function(d){
     name <- paste0(deparse(substitute(d)),"Datapackage")
     dp <- Datapackage$new(name=name,
                           resources=tblList)
+  }
+  if(class(d)== "character"){
+    json.str <- d
+    dp <- Datapackage$new()
+    dp$fromJSON(json.str)
   }
   dp
 }
@@ -39,16 +44,22 @@ newDatapkg <- function(d){
 newDatatblFromDataframe <- function(df, dfname = "table1"){
   fieldNames <- names(df)
   classes <- unname(unlist(lapply(df,class)))
-  datatypes <- ifelse( classes =="numeric","N","C")
+  data_types <- Map({function(c){
+    if(c=="numeric"||c=="integer") "N"
+    else "C"
+  }},classes)
   fieldList <- lapply(seq_along(fieldNames), function(i){    
     Field$new(
       name=fieldNames[i],
       type=classes[i],
-      attributes=list(id=letters[i], datatype = datatypes[i])
+      ae_field_info=list(id=letters[i], data_type = data_types[[i]])
     )
   }) 
   names(df) <- letters[1:ncol(df)]
   tbl <- Datatbl$new(name=dfname,
+                     ae_resource_info = list(id=dfname, 
+                                             public="true",
+                                             resource_type="tbl"),
                      schema = list(fields= fieldList),
                      data = df)  
   tbl
@@ -106,15 +117,15 @@ getDataframes <- function(dp, withNames = FALSE){
 
 getDatatypeByIdx <- function(dp, dtIdx = 1){
   l <- dp$resources[[dtIdx]]$schema$fields
-  l <- lapply(l,function(f){f$attributes$datatype})
+  l <- lapply(l,function(f){f$ae_field_info$data_type})
   paste(unlist(l),collapse="")
 }
 
 #' Get datatypes for all resources in a list
 #' @name getDatatypes
-#' @description Get datatypes for all resources in a list
+#' @description Get data_types for all resources in a list
 #' @param dp datapackage
-#' @return list of datatypes for each resource
+#' @return list of data_types for each resource
 #' @export
 #' @examples \dontrun{
 #' }
@@ -294,35 +305,57 @@ dpToJSON <- function(dp){
   listToJSON(l)
 }
 
+#' Check if a datapackage has same structure as a reference datapackage
+#' @name dpStructure
+#' @description Check if two datapackages have the same structure
+#' @param l Datapackage 
+#' @return json string with the contents of the Datapackage
 #' @export
-emptyToNULL <- function(l){
-  Map(function(i){
-    if(class(i)=="character" && nchar(i)>0) {
-      return(i)
-#     } else if(class(i)=="data.frame" && !is.empty(i)){
-#       return (i)
-    } else if(class(i)=="Datatbl"){
-      return (emptyToNULL(i$asList()))
-    } else if(class(i)=="Field"){
-      return (emptyToNULL(i$asList()))
-    }    
-    else if(class(i)=="list"){ 
-      if(length(i)==0){
-        return(NULL)
-      } else {
-        return(emptyToNULL(i))
-      }
-    } else{
-      NULL
-    }
-  },l) 
+#' @examples \dontrun{
+#' }
+dpStructure <- function(l){
+  if(class(l)=="Datapackage") l <- l$asList()
+  if(class(l) == "list" && length(l)>0){
+    if(all(lapply(l,class)=="Datatbl")) l <- lapply(l,function(tbl){tbl$asList()})
+    if(all(lapply(l,class)=="Field")) l <- lapply(l,function(fld){fld$asList()})
+    nms <- seq_along(l)
+    try(nms <- ls(l), silent=TRUE)
+    ltmp <- lapply(setNames(nms,nms),function(nm){
+      print(nm)
+      # nm <- setNames(nms,nms)[6]
+      # nm <- setNames(nms,nms)[2]
+      # l[[nm]]
+      if(class(l[[nm]])=="list" && length(l)>0){
+        dpStructure(l[[nm]]) 
+      }else{
+        return(list(propvalue = l[[nm]],class=class(l[[nm]])))
+        #return(class=class(l[[nm]]))
+      }      
+    }) 
+  } else if(class(l) == "list" && length(l) == 0){
+    return(list(propvalue = list(), class="list"))
+  } else
+  {
+    return(list(propvalue = l[[nm]], class=class(l[[nm]])))
+    #return(class=class(l[[nm]]))
+  }  
 }
 
+#' Check if a datapackage has same ae_structure as a reference datapackage
+#' @name getAeDpStr
+#' @description Check if two datapackages have the same structure
+#' @param dp1 Datapackage 
+#' @param dp2 Datapackage 
+#' @return json string with the contents of the Datapackage
 #' @export
-removeNull <- function( x ){  
-  x <- x[ !sapply( x, is.null ) ]
-  if( is.list(x) ){
-    x <- lapply( x, removeNull)
-  }
-  return(x)
+#' @examples \dontrun{
+#' }
+getAeDpStr <- function(dpStr){
+  l <- dpStr
+  lapply(l$resources,function(x){
+    # x <- l$resources[[1]]
+    ae_resource_info <- x$ae_resource_info
+    ae_fields_info <- lapply(x$schema$fields,function(y){y$ae_field_info})
+    list(ae_resource_info = ae_resource_info, ae_fields_info =  ae_fields_info)
+  })     
 }

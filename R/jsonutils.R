@@ -92,7 +92,6 @@ listToJSON <- function(x){
 }
 
 
-
 #' @export
 emptyToNULL <- function(l){
   Map(function(i){

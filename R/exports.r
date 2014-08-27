@@ -217,6 +217,7 @@ loadDpDataByIdx <- function(dp, dtIdx = 1, dpPath="."){
       df <- read.csv(temporaryFile, sep = delimiter)
     }
   }
+  names(df) <- letters[ncol(df)] # TODO match column names with fieldId's
   dp$resources[[dtIdx]]$data <- df
   dp
 }

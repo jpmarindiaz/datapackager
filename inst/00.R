@@ -69,6 +69,32 @@ dp
 writeDatapackage(dp,"tmp")
 dp$toJSON()
 
+## 
+vizId <- "n_gg_hist_001"
+dpPath <- system.file(file.path("viz",vizId,"ext/datapackage"),package="tarsila")
+dp.json <- read_file(file.path(dpPath,"datapackage.json"))
+dp <- newDatapkg(dp.json)
+loadDpData(dp, dpPath)
+dp
+df <- getDataframe(dp)
+
+
+## 
+vizId <- "n_gg_hist_001"
+dpPath <- system.file(file.path("viz",vizId,"ext/datapackage"),package="tarsila")
+dp.json <- read_file(file.path(dpPath,"datapackage.json"))
+dp <- newDatapkg(dp.json)
+loadDpData(dp, dpPath)
+dp
+df <- getDataframe(dp)
+dp$resources[[1]]$data
+labels <- getFieldNames(dp)  
+df$idx <- seq(1:nrow(df)) 
+q <- ggplot(df, aes(x=a, y=b))
+q <- q + geom_point()
+q <- q + theme_bw()
+q <- q + labs(x = labels[1], y = labels[2])
+q
 
 
 ### Simple dp

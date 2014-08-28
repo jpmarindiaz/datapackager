@@ -8,20 +8,21 @@
 #' dp <- newDatapkg(mtcars)
 #' }
 
-newDatapkg <- function(d){
+newDatapkg <- function(d, name=NULL){
   if(class(d) == "data.frame"){     
-    name <- "table1"
-    tbl <- newDatatblFromDataframe(d, name)
-    name <- paste0(deparse(substitute(d)),"Datapackage")
+    tblName <- deparse(substitute(d))
+    tbl <- newDatatblFromDataframe(d, tblName)
+    name <- name %||% paste0("Datapackage-",tblName)
     dp <- Datapackage$new(name=name,
                           resources=list(tbl))
   }
   if(unlist(unique(lapply(d,class))) == "data.frame"){
+    if(is.null(names(d))) stop("d must be a named list, e.g. newDatapkg(list(nm1=mtcars,nm2=cars))")
     nms <- names(d) %||% paste0("table",seq_along(d))
     tblList <- lapply(seq_along(d),function(df){
       tbl <- newDatatblFromDataframe(d[[df]],nms[df])
     })
-    name <- paste0(deparse(substitute(d)),"Datapackage")
+    name <- name %||% paste0("Datapackage-",paste(names(d),collapse="-"))
     dp <- Datapackage$new(name=name,
                           resources=tblList)
   }
@@ -297,12 +298,12 @@ writeDatapackage <- function(dp, path="."){
     dp$resources[[i]]$path <- basename(filename)
     dir.create(dirname(filename),showWarnings = FALSE, recursive = TRUE)
     write.csv(l[[i]],filename,row.names = FALSE)
-    message("dataframe written to: ", filename)
     # Do not clean data from dp, it might be used to write more datapackages
     # dp$resources[[i]]$data <- data.frame()
     })  
   jsonstr <- dpToJSON(dp)
   write_file(jsonstr, file.path(path,"datapackage.json")) 
+  message("datapackage written to: ", file.path(path,"datapackage.json"))
 }
 
 #' Datapackage to JSON, removes data before transforming to JSON

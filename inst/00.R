@@ -118,9 +118,18 @@ dp$fromJSON(json.str)
 getDataframes(dp,withNames=TRUE)
 
 
-##
-dpPath <- system.file("sales-datapackage", package="datapackager")
+##  TEST READ dp
+library(devtools)
+load_all()
+dpPath <- system.file("sales-dp", package="datapackager")
 dp <- readDatapackage(dpPath)
+
+dpPath <- system.file("datapackagetmp", package="datapackager")
+dp <- readDatapackage(dpPath)
+
+dp <- newDatapkg(list(mtcars,cars)) # test names of new datapackage
+dp <- newDatapkg(list(c1=mtcars,c2=cars)) # test names of new datapackage
+
 
 ### Check structure
 

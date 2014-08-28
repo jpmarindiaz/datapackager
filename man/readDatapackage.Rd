@@ -3,7 +3,7 @@
 \alias{readDatapackage}
 \title{Read datapackage in json}
 \usage{
-readDatapackage(dp, dpPath = ".")
+readDatapackage(dpPath = ".")
 }
 \arguments{
 \item{dp}{}

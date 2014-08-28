@@ -272,7 +272,7 @@ getDateiSample <- function(dateiId, asDp = FALSE, random=TRUE){
 #' mysite <- "/home/david/github/mysite"
 #' skeleton(mysite)
 #' }
-readDatapackage <- function(dp, dpPath="."){  
+readDatapackage <- function(dpPath="."){  
   dp.json <- read_file(file.path(dpPath,"datapackage.json"))
   dp <- newDatapkg(dp.json)
   loadDpData(dp, dpPath)

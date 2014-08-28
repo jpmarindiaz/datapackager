@@ -262,6 +262,23 @@ getDateiSample <- function(dateiId, asDp = FALSE, random=TRUE){
   d
 }
 
+#' Read datapackage in json
+#' @name readDatapackage
+#' @description Write datapackage in json
+#' @param dp
+#' @return logical TRUE if successful, FALSE if directory already exists
+#' @export
+#' @examples \dontrun{
+#' mysite <- "/home/david/github/mysite"
+#' skeleton(mysite)
+#' }
+readDatapackage <- function(dp, dpPath="."){  
+  dp.json <- read_file(file.path(dpPath,"datapackage.json"))
+  dp <- newDatapkg(dp.json)
+  loadDpData(dp, dpPath)
+  dp
+}
+
 #' Write datapackage in json
 #' @name WriteDatapackage
 #' @description Write datapackage in json

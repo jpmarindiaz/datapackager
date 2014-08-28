@@ -111,7 +111,6 @@ dp <- newDatapkg(list(nodes=nodes,edges=edges))
 dp.json <- read_file(file.path(dataPath,"datapackage.json"))
 dp <- newDatapkg(dp.json)
 
-
 json.str <- dp.json
 dp <- Datapackage$new()
 dp$fromJSON(json.str)
@@ -119,6 +118,9 @@ dp$fromJSON(json.str)
 getDataframes(dp,withNames=TRUE)
 
 
+##
+dpPath <- system.file("sales-datapackage", package="datapackager")
+dp <- readDatapackage(dpPath)
 
 ### Check structure
 

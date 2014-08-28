@@ -1,0 +1,144 @@
+
+{
+"name": "list(sales_history, product_hierarchy[, c("product", "sublinea")])Datapackage",
+"resources": 
+[ 
+{
+"name": "table1",
+"path": "table1.csv",
+"ae_resource_info": 
+{
+"id": "table1",
+"public": "true",
+"resource_type": "tbl"
+}
+,
+"mediatype": "text/csv",
+"format": "csv",
+"dialect": 
+{
+"delimiter": ","
+}
+,
+"schema": 
+{
+"fields": 
+[ 
+{
+"name": "product",
+"type": "integer",
+"ae_field_info": 
+{
+"id": "a",
+"data_type": "N",
+"label": "product"
+}
+
+}
+, 
+{
+"name": "date",
+"type": "Date",
+"ae_field_info": 
+{
+"id": "b",
+"data_type": "C",
+"label": "date"
+}
+
+}
+, 
+{
+"name": "revenue",
+"type": "numeric",
+"ae_field_info": 
+{
+"id": "c",
+"data_type": "N",
+"label": "revenue"
+}
+
+}
+, 
+{
+"name": "units",
+"type": "numeric",
+"ae_field_info": 
+{
+"id": "d",
+"data_type": "N",
+"label": "units"
+}
+
+}
+, 
+{
+"name": "price",
+"type": "numeric",
+"ae_field_info": 
+{
+"id": "e",
+"data_type": "N",
+"label": "price"
+}
+
+}
+]
+
+}
+
+}
+, 
+{
+"name": "table2",
+"path": "table2.csv",
+"ae_resource_info": 
+{
+"id": "table2",
+"public": "true",
+"resource_type": "tbl"
+}
+,
+"mediatype": "text/csv",
+"format": "csv",
+"dialect": 
+{
+"delimiter": ","
+}
+,
+"schema": 
+{
+"fields": 
+[ 
+{
+"name": "product",
+"type": "integer",
+"ae_field_info": 
+{
+"id": "a",
+"data_type": "N",
+"label": "product"
+}
+
+}
+, 
+{
+"name": "sublinea",
+"type": "character",
+"ae_field_info": 
+{
+"id": "b",
+"data_type": "C",
+"label": "sublinea"
+}
+
+}
+]
+
+}
+
+}
+]
+
+}
+

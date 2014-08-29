@@ -69,6 +69,20 @@ dp
 writeDatapackage(dp,"tmp")
 dp$toJSON()
 
+
+### TEST Date 
+load_all()
+df <- data.frame(date = seq(as.Date("2014/1/1"), as.Date("2014/1/30"), "days"),
+                 num = runif(30))
+class(df$date)
+dp <- newDatapkg(df)
+writeDatapackage(dp,"dn")
+dp <- readDatapackage("dn")
+
+df2 <- dp$resources[[1]]$data
+df <- getDataframe(dp)
+
+
 ##  TEST tarsila
 library(devtools)
 load_all()
@@ -127,8 +141,8 @@ dp <- readDatapackage(dpPath)
 dpPath <- system.file("datapackagetmp", package="datapackager")
 dp <- readDatapackage(dpPath)
 
-dp <- newDatapkg(list(mtcars,cars)) # test names of new datapackage
-dp <- newDatapkg(list(c1=mtcars,c2=cars)) # test names of new datapackage
+dp <- newDatapkg(list(mtcars,cars)) # won't work
+dp <- newDatapkg(list(c1=mtcars,c2=cars)) # named list will work
 
 
 ### Check structure

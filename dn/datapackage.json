@@ -1,0 +1,58 @@
+
+{
+"name": "Datapackage-df",
+"resources": 
+[ 
+{
+"name": "df",
+"path": "df.csv",
+"ae_resource_info": 
+{
+"id": "df",
+"public": "true",
+"resource_type": "tbl"
+}
+,
+"mediatype": "text/csv",
+"format": "csv",
+"dialect": 
+{
+"delimiter": ","
+}
+,
+"schema": 
+{
+"fields": 
+[ 
+{
+"name": "date",
+"type": "Date",
+"ae_field_info": 
+{
+"id": "a",
+"data_type": "D",
+"label": "date"
+}
+
+}
+, 
+{
+"name": "num",
+"type": "numeric",
+"ae_field_info": 
+{
+"id": "b",
+"data_type": "N",
+"label": "num"
+}
+
+}
+]
+
+}
+
+}
+]
+
+}
+

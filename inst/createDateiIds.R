@@ -9,8 +9,8 @@ datStrCombn <- function(dat,n){
   dd[!duplicated(dd),] 
 }
 
-dat <- c("-","C","D","N","O")
-n <- 8
+dat <- c("-","X","C","D","N","O")
+n <- 10
 d <- datStrCombn(dat,n)
 
 # Create datei

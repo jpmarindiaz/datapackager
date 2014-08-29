@@ -47,6 +47,7 @@ newDatatblFromDataframe <- function(df, dfname = "table1"){
   classes <- unname(unlist(lapply(df,class)))
   data_types <- Map({function(c){
     if(c=="numeric"||c=="integer") "N"
+    else if(c=="Date") "D"
     else "C"
   }},classes)
   fieldList <- lapply(seq_along(fieldNames), function(i){    
@@ -219,6 +220,13 @@ loadDpDataByIdx <- function(dp, dtIdx = 1, dpPath="."){
     }
   }
   names(df) <- letters[1:ncol(df)] # TODO match column names with fieldId's
+  dtypes <- getDatatypeByIdx(dp,dtIdx)
+  dtypes <- strsplit(dtypes,"")[[1]]
+  for (i in seq_along(dtypes)){
+    if(dtypes[i]=="N"){df[,i]<- as.numeric(df[,i])}
+    if(dtypes[i]=="C"){df[,i]<- as.factor(df[,i])}
+    if(dtypes[i]=="D"){df[,i]<- as.Date(df[,i])} 
+  }
   dp$resources[[dtIdx]]$data <- df
   dp
 }

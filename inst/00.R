@@ -144,8 +144,39 @@ dp <- readDatapackage(dpPath)
 dp <- newDatapkg(list(mtcars,cars)) # won't work
 dp <- newDatapkg(list(c1=mtcars,c2=cars)) # named list will work
 
+## TEST setFieldNames
+library(devtools)
+load_all()
+dpPath <- system.file("sales-dp", package="datapackager")
+dp <- readDatapackage(dpPath)
+getFieldNames(dp)
+
+fieldNames <- list(c("x","y","z","w"),c("prod","lin"))
+setFieldNames(dp,)
+
+setFieldNames(dp,list(table1=c("x","y","z","w"),table2=c("prod","lin")))
+
+## TEST POSIX lubridate
+library(devtools)
+load_all()
+dpPath <- system.file("cadastro-dp", package="datapackager")
+dp <- readDatapackage(dpPath)
+df <- read.csv(file.path(dpPath,"cadastro.csv"), stringsAsFactors=FALSE)
+#writeDatapackage(dp,dpPath)
+
+getDatatypes(dp)
+str(getDataframe(dp))
+
+df2 <- getDataframe(dp)
+str(df2)
+df <- df2
+dp2 <- newDatapkg(df2)
+getDatatypes(dp2)
+str(getDataframe(dp))
+
 
 ### Check structure
+#### OJO mapply might help
 
 dpStr <- dpStructure(dp)
 ae_str <- getAeDpStr(dpStr)

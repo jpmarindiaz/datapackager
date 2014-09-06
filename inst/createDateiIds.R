@@ -10,7 +10,7 @@ datStrCombn <- function(dat,n){
 }
 
 dat <- c("-","X","C","D","N","O")
-n <- 10
+n <- 8
 d <- datStrCombn(dat,n)
 
 # Create datei

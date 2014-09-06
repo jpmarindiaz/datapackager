@@ -44,10 +44,10 @@ newDatapkg <- function(d, name=NULL){
 #' }
 newDatatblFromDataframe <- function(df, dfname = "table1"){
   fieldNames <- names(df)
-  classes <- unname(unlist(lapply(df,class)))
+  classes <- unname(unlist(lapply(df,function(col){class(col)[1]})))
   data_types <- Map({function(c){
     if(c=="numeric"||c=="integer") "N"
-    else if(c=="Date") "D"
+    else if(c=="Date" || any(grepl("POSIX",c)) ) "D"
     else "C"
   }},classes)
   fieldList <- lapply(seq_along(fieldNames), function(i){    
@@ -67,7 +67,23 @@ newDatatblFromDataframe <- function(df, dfname = "table1"){
   tbl
 }
 
+#' Set the data contents of a datapkg object as a data frame
+#' @name setDataframe
+#' @description Get the contents of a data package as a data frame
+#' @param dp Input datapackage
+#' @param dtIdx Index of the resource to get the data frame from. Defaults to 1.
+#' @return data frame
+#' @export
+#' @examples \dontrun{
+#' dp <- newDatapkg(mtcars)
+#' getDataframe(dp, withNames=TRUE) 
+#' }
 
+setDataframe <- function(dp, df, dtIdx = 1){
+  names(df) <- letters[1:ncol(df)]
+  dp$resources[[dtIdx]]$data <- df
+  df
+}
 
 #' Get the data contents of a datapkg object as a data frame
 #' @name getDataframe
@@ -107,6 +123,7 @@ getDataframes <- function(dp, withNames = FALSE){
   l
 }
 
+
 #' Get datatype by resource index
 #' @name getDatatypeByIdx
 #' @description Get datatype by resource index
@@ -140,6 +157,21 @@ getDatatypes <- function(dp){
   l
 }
 
+#' Get datatypes for all resources in a list
+#' @name getResourceNames
+#' @description Get data_types for all resources in a list
+#' @param dp datapackage
+#' @return list of data_types for each resource
+#' @export
+#' @examples \dontrun{
+#' }
+
+getResourceNames <- function(dp){
+  l <- lapply(dp$resources,function(resource){
+    resource$name
+  })
+  unlist(l)
+}
 
 #' Get fieldnames by resource index
 #' @name getFieldNamesByIdx
@@ -186,7 +218,7 @@ setFieldNames <- function(dp, fieldNames){
     stop("labels has to be a list of character vectors")
   } 
   # fieldNames <- list(tableA = c("hola","como estás?"))
-  tblnames <- names(fieldNames)
+  tblnames <- names(fieldNames) %||% getResourceNames(dp)
   lapply(tblnames, function(tblname){    
     dtbl <- Find(function(r){r$name == tblname},dp$resources) 
     l <- dtbl$schema$fields
@@ -225,7 +257,11 @@ loadDpDataByIdx <- function(dp, dtIdx = 1, dpPath="."){
   for (i in seq_along(dtypes)){
     if(dtypes[i]=="N"){df[,i]<- as.numeric(df[,i])}
     if(dtypes[i]=="C"){df[,i]<- as.factor(df[,i])}
-    if(dtypes[i]=="D"){df[,i]<- as.Date(df[,i])} 
+    if(dtypes[i]=="D"){
+      d <- as.Date(df[,i])
+      d <- as.POSIXct(df[,i])
+      df[,i]<- d
+    } 
   }
   dp$resources[[dtIdx]]$data <- df
   dp

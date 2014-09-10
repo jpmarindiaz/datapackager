@@ -291,18 +291,28 @@ loadDpData <- function(dp, dpPath = "."){
 #' mysite <- "/home/david/github/mysite"
 #' skeleton(mysite)
 #' }
-getDateiSample <- function(dateiId, asDp = FALSE, random=TRUE){ 
-  switch(dateiId, 
-         C={
-           d <- data.frame(sample(LETTERS[1:4],20, replace=TRUE))},
-         N={d <- data.frame(runif(40)) },
-         N1={d <- data.frame(runif(40,-3,3)) },
-         NN={d <- data.frame(runif(40,-3,3),floor(runif(40,0,13)) ) },
-         NN2={ d <- data.frame(runif(400,-3,3),floor(rlnorm(400, 2, 1)) ) },
-        {
-          d <- cars
-        }
-      )
+getDateiSample <- function(dateiId, n=20, asDp = FALSE, random=TRUE){ 
+  if(dateiId == "C") 
+    d <- data.frame(x=sample(LETTERS[1:4],n, replace=TRUE))
+  if(dateiId == "D") 
+    d <- data.frame(dat=as.POSIXct(as.Date(100*runif(n),origin = "2014-01-01")))
+  if(dateiId == "N") 
+    d <- data.frame(x=runif(n))
+  if(dateiId == "NN") 
+    d <- data.frame(x=runif(n), y = rpois(n,10.7))
+  if(dateiId == "CN") 
+    d <- data.frame(x=sample(LETTERS[1:4],n, replace=TRUE),
+                    x=runif(n))
+  if(dateiId == "CD") 
+    d <- data.frame(sample(LETTERS[1:4],20, replace=TRUE),
+                    dat=as.POSIXct(as.Date(100*runif(n),origin = "2014-01-01")))
+  if(dateiId == "CDN") 
+    d <- data.frame(x=sample(LETTERS[1:4],20, replace=TRUE),
+                    dat=as.POSIXct(as.Date(100*runif(n),origin = "2014-01-01")),
+                    nume=runif(n))
+  if(dateiId == "C") d <- data.frame(sample(LETTERS[1:4],20, replace=TRUE))
+  if(dateiId == "C") d <- data.frame(sample(LETTERS[1:4],20, replace=TRUE))
+  if(is.null(d)) d <- mtcars
   if(asDp) {d <- newDatapkg(d)}
   d
 }

@@ -3,7 +3,7 @@
 \alias{newDatapkg}
 \title{Creates a new Datapackage}
 \usage{
-newDatapkg(d)
+newDatapkg(d, name = NULL)
 }
 \arguments{
 \item{d}{might be a json string, data frame or list of data frames.}

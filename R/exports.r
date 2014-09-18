@@ -61,7 +61,8 @@ newDatatblFromDataframe <- function(df, dfname = "table1"){
   tbl <- Datatbl$new(name=dfname,
                      ae_resource_info = list(id=dfname, 
                                              public="true",
-                                             resource_type="tbl"),
+                                             resource_type="tbl",
+                                             record_name="observation"),
                      schema = list(fields= fieldList),
                      data = df)  
   tbl
@@ -83,6 +84,41 @@ setDataframe <- function(dp, df, dtIdx = 1){
   names(df) <- letters[1:ncol(df)]
   dp$resources[[dtIdx]]$data <- df
   df
+}
+
+#' Set the data contents of a datapkg object as a data frame
+#' @name setRecordName
+#' @description Get the contents of a data package as a data frame
+#' @param dp Input datapackage
+#' @param dtIdx Index of the resource to get the data frame from. Defaults to 1.
+#' @return data frame
+#' @export
+#' @examples \dontrun{
+#' dp <- newDatapkg(mtcars)
+#' getDataframe(dp, withNames=TRUE) 
+#' }
+
+setRecordName <- function(dp, recordName, dtIdx = 1){
+  ## TODO for dps with more than 1 resource
+  dp$resources[[dtIdx]]$ae_resource_info$record_name <- recordName
+  dp
+}
+
+#' Get the data contents of a datapkg object as a data frame
+#' @name getRecordName
+#' @description Get the contents of a data package as a data frame
+#' @param dp Input datapackage
+#' @param dtIdx Index of the resource to get the data frame from. Defaults to 1.
+#' @return data frame
+#' @export
+#' @examples \dontrun{
+#' dp <- newDatapkg(mtcars)
+#' getDataframe(dp, withNames=TRUE) 
+#' }
+
+getRecordName <- function(dp, dtIdx = 1){
+  ## TODO for dps with more than 1 resource
+  dp$resources[[dtIdx]]$ae_resource_info$record_name
 }
 
 #' Get the data contents of a datapkg object as a data frame

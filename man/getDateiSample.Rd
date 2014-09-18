@@ -3,7 +3,7 @@
 \alias{getDateiSample}
 \title{Creates random datapackages for a given datatype.}
 \usage{
-getDateiSample(dateiId, asDp = FALSE, random = TRUE)
+getDateiSample(dateiId, n = 20, asDp = FALSE, random = TRUE)
 }
 \arguments{
 \item{site}{path to the directory you want to set up}

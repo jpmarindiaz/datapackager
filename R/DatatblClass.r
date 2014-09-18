@@ -22,7 +22,8 @@ Datatbl <- setRefClass('Datatbl',
                             path = "",
                             ae_resource_info = list(id="table1", 
                                                     public="true",
-                                                    resource_type="tbl"),
+                                                    resource_type="tbl",
+                                                    record_name="observation unit"),
                             mediatype = "text/csv",
                             format = "csv",
                             dialect = list(delimiter=","),
@@ -32,7 +33,7 @@ Datatbl <- setRefClass('Datatbl',
         name <<- name
         description <<- description  %||% ""
         path <<- path  %||% ""
-        ae_resource_info <<- ae_resource_info %||% list(id=name,public="true",resource_type="tbl")
+        ae_resource_info <<- ae_resource_info %||% list(id=name,public="true",resource_type="tbl", record_name="observation unit")
         mediatype <<- mediatype
         format <<- format
         dialect <<- dialect

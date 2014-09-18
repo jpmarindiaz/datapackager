@@ -156,6 +156,16 @@ setFieldNames(dp,)
 
 setFieldNames(dp,list(table1=c("x","y","z","w"),table2=c("prod","lin")))
 
+
+## TEST setRecordName
+load_all()
+dpPath <- system.file("sales-dp", package="datapackager")
+dp <- readDatapackage(dpPath)
+getRecordName(dp)
+head(getDataframe(dp, withNames = TRUE))
+setRecordName(dp, "transaction")
+
+
 ## TEST POSIX lubridate
 library(devtools)
 load_all()

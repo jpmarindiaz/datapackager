@@ -293,9 +293,9 @@ getDpSelection <- function(dp, dtIdx = 1, cols = c()){
     else{
       dfout <- data.frame(a= df[,c(cols)])
     }    
-  }
-  
-  forceDatatype(dfout, dtypes, pasted= FALSE)
+  }  
+  d <- forceDatatype(dfout, dtypes, pasted= FALSE)
+  newDatapkg(d)
 }
 
 

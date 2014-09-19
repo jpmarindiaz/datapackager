@@ -285,7 +285,8 @@ getDpSelection <- function(dp, dtIdx = 1, cols = c()){
   dtypes <- strsplit(dtypes,"")[[1]]
   names(dtypes) <- letters[1:length(dtypes)]
   dtypes <- dtypes[cols]
-  
+  nms <- getFieldNamesByIdx(dp, dtIdx = dtIdx)
+  names(nms) <- letters[1:length(nms)]  
   if (!is.null(cols)) {
     if(length(cols) >1) {
       dfout <- df[,cols]
@@ -295,7 +296,8 @@ getDpSelection <- function(dp, dtIdx = 1, cols = c()){
     }    
   }  
   d <- forceDatatype(dfout, dtypes, pasted= FALSE)
-  newDatapkg(d)
+  names(d) <- nms[cols]
+  dpout <- newDatapkg(d)  
 }
 
 

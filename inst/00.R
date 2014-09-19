@@ -191,8 +191,9 @@ library(devtools)
 load_all()
 dpPath <- system.file("CDDNdatapackage", package="datapackager")
 dp <- readDatapackage(dpPath)
-
-str(getDpSelection(dp, cols = c("b","d")))
+str(getDataframe(dp, withNames=TRUE))
+dpout <- getDpSelection(dp, cols = c("b","d"))
+str(getDataframe(dpout, withNames=TRUE))
 
 ### Check structure
 #### OJO mapply might help

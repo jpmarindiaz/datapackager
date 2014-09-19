@@ -139,6 +139,8 @@ getDataframe <- function(dp, dtIdx = 1, withNames = FALSE){
   df
 }
 
+
+
 #' Get all data contents of a datapkg object as a list of data frames.
 #' @name getDataframes
 #' @description Get all data contents of a datapkg object as a list of data frames.
@@ -266,135 +268,37 @@ setFieldNames <- function(dp, fieldNames){
   getFieldNames(dp)
 }
 
-#' Load data in a data frame
-#' @name loadDpDataByIdx
-#' @description #' Load data in a data frame by reading the paths of the resources
-#' @param Datapkg to load the data from by resource index.
-#' @return Datapgk with updated data field
+
+#' Set fieldnames in a list
+#' @name getDpSelection
+#' @description Set fieldnames by resource index
+#' @param dp datapackage
+#' @return dp with updated fieldanmes
 #' @export
 #' @examples \dontrun{
 #' }
-loadDpDataByIdx <- function(dp, dtIdx = 1, dpPath="."){
-  format <- dp$resources[[dtIdx]]$format
-  delimiter <- dp$resources[[dtIdx]]$dialect$delimiter %||% ","
-  path <- file.path(dpPath,dp$resources[[dtIdx]]$path)
-  if(format == "csv"){
-    if(is.null(httr::parse_url(path)$hostname))
-      df <- read.csv(path,sep = delimiter)
-    else{
-      temporaryFile <- tempfile()
-      download.file(path,destfile=temporaryFile, method="curl")
-      df <- read.csv(temporaryFile, sep = delimiter)
-    }
-  }
-  names(df) <- letters[1:ncol(df)] # TODO match column names with fieldId's
+getDpSelection <- function(dp, dtIdx = 1, cols = c()){
+  #cols <- c("a","b")
+  #dtIdx <- 1
+  df <- getDataframe(dp, dtIdx = dtIdx)  
   dtypes <- getDatatypeByIdx(dp,dtIdx)
   dtypes <- strsplit(dtypes,"")[[1]]
-  for (i in seq_along(dtypes)){
-    if(dtypes[i]=="N"){df[,i]<- as.numeric(df[,i])}
-    if(dtypes[i]=="C"){df[,i]<- as.factor(df[,i])}
-    if(dtypes[i]=="D"){
-      d <- as.Date(df[,i])
-      d <- as.POSIXct(df[,i])
-      df[,i]<- d
-    } 
+  names(dtypes) <- letters[1:length(dtypes)]
+  dtypes <- dtypes[cols]
+  
+  if (!is.null(cols)) {
+    if(length(cols) >1) {
+      dfout <- df[,cols]
+    }
+    else{
+      dfout <- data.frame(a= df[,c(cols)])
+    }    
   }
-  dp$resources[[dtIdx]]$data <- df
-  dp
+  
+  forceDatatype(dfout, dtypes, pasted= FALSE)
 }
 
-#' Load data in a data field for each resource
-#' @name loadDpData
-#' @description #' Load data in a data field for each resource
-#' @param Datapkg to load the data from
-#' @return Datapgk with updated data field
-#' @export
-#' @examples \dontrun{
-#' }
-loadDpData <- function(dp, dpPath = "."){
-  l <- lapply(seq_along(dp$resources),function(i){loadDpDataByIdx(dp, dtIdx=i, dpPath)})
-  names(l) <- Map(function(tbl){tbl$name},dp$resources)
-  l
-}
 
-#' Creates random datapackages for a given datatype.
-#' @name getDateiSample
-#' @description Sets up the directory structure for a new static site
-#' @param site path to the directory you want to set up
-#' @return logical TRUE if successful, FALSE if directory already exists
-#' @export
-#' @examples \dontrun{
-#' mysite <- "/home/david/github/mysite"
-#' skeleton(mysite)
-#' }
-getDateiSample <- function(dateiId, n=20, asDp = FALSE, random=TRUE){ 
-  if(dateiId == "C") 
-    d <- data.frame(x=sample(LETTERS[1:4],n, replace=TRUE))
-  if(dateiId == "D") 
-    d <- data.frame(dat=as.POSIXct(as.Date(100*runif(n),origin = "2014-01-01")))
-  if(dateiId == "N") 
-    d <- data.frame(x=runif(n))
-  if(dateiId == "NN") 
-    d <- data.frame(x=runif(n), y = rpois(n,10.7))
-  if(dateiId == "CN") 
-    d <- data.frame(x=sample(LETTERS[1:4],n, replace=TRUE),
-                    x=runif(n))
-  if(dateiId == "CD") 
-    d <- data.frame(sample(LETTERS[1:4],20, replace=TRUE),
-                    dat=as.POSIXct(as.Date(100*runif(n),origin = "2014-01-01")))
-  if(dateiId == "CDN") 
-    d <- data.frame(x=sample(LETTERS[1:4],20, replace=TRUE),
-                    dat=as.POSIXct(as.Date(100*runif(n),origin = "2014-01-01")),
-                    nume=runif(n))
-  if(dateiId == "C") d <- data.frame(sample(LETTERS[1:4],20, replace=TRUE))
-  if(dateiId == "C") d <- data.frame(sample(LETTERS[1:4],20, replace=TRUE))
-  if(is.null(d)) d <- mtcars
-  if(asDp) {d <- newDatapkg(d)}
-  d
-}
-
-#' Read datapackage in json
-#' @name readDatapackage
-#' @description Write datapackage in json
-#' @param dp
-#' @return logical TRUE if successful, FALSE if directory already exists
-#' @export
-#' @examples \dontrun{
-#' mysite <- "/home/david/github/mysite"
-#' skeleton(mysite)
-#' }
-readDatapackage <- function(dpPath="."){  
-  dp.json <- read_file(file.path(dpPath,"datapackage.json"))
-  dp <- newDatapkg(dp.json)
-  loadDpData(dp, dpPath)
-  dp
-}
-
-#' Write datapackage in json
-#' @name WriteDatapackage
-#' @description Write datapackage in json
-#' @param dp
-#' @return logical TRUE if successful, FALSE if directory already exists
-#' @export
-#' @examples \dontrun{
-#' mysite <- "/home/david/github/mysite"
-#' skeleton(mysite)
-#' }
-writeDatapackage <- function(dp, path="."){  
-  l <- getDataframes(dp, withNames = TRUE)
-  lapply(seq_along(l),function(i){
-    # Write csv files
-    filename <- file.path(path,paste0(names(l)[i],".csv"))
-    dp$resources[[i]]$path <- basename(filename)
-    dir.create(dirname(filename),showWarnings = FALSE, recursive = TRUE)
-    write.csv(l[[i]],filename,row.names = FALSE)
-    # Do not clean data from dp, it might be used to write more datapackages
-    # dp$resources[[i]]$data <- data.frame()
-    })  
-  jsonstr <- dpToJSON(dp)
-  write_file(jsonstr, file.path(path,"datapackage.json")) 
-  message("datapackage written to: ", file.path(path,"datapackage.json"))
-}
 
 #' Datapackage to JSON, removes data before transforming to JSON
 #' @name dpToJSON
@@ -412,59 +316,4 @@ dpToJSON <- function(dp){
   #   l$resources[[i]]$data <- NULL
   # })
   listToJSON(l)
-}
-
-#' Check if a datapackage has same structure as a reference datapackage
-#' @name dpStructure
-#' @description Check if two datapackages have the same structure
-#' @param l Datapackage 
-#' @return json string with the contents of the Datapackage
-#' @export
-#' @examples \dontrun{
-#' }
-dpStructure <- function(l){
-  if(class(l)=="Datapackage") l <- l$asList()
-  if(class(l) == "list" && length(l)>0){
-    if(all(lapply(l,class)=="Datatbl")) l <- lapply(l,function(tbl){tbl$asList()})
-    if(all(lapply(l,class)=="Field")) l <- lapply(l,function(fld){fld$asList()})
-    nms <- seq_along(l)
-    try(nms <- ls(l), silent=TRUE)
-    ltmp <- lapply(setNames(nms,nms),function(nm){
-      print(nm)
-      # nm <- setNames(nms,nms)[6]
-      # nm <- setNames(nms,nms)[2]
-      # l[[nm]]
-      if(class(l[[nm]])=="list" && length(l)>0){
-        dpStructure(l[[nm]]) 
-      }else{
-        return(list(propvalue = l[[nm]],class=class(l[[nm]])))
-        #return(class=class(l[[nm]]))
-      }      
-    }) 
-  } else if(class(l) == "list" && length(l) == 0){
-    return(list(propvalue = list(), class="list"))
-  } else
-  {
-    return(list(propvalue = l[[nm]], class=class(l[[nm]])))
-    #return(class=class(l[[nm]]))
-  }  
-}
-
-#' Check if a datapackage has same ae_structure as a reference datapackage
-#' @name getAeDpStr
-#' @description Check if two datapackages have the same structure
-#' @param dp1 Datapackage 
-#' @param dp2 Datapackage 
-#' @return json string with the contents of the Datapackage
-#' @export
-#' @examples \dontrun{
-#' }
-getAeDpStr <- function(dpStr){
-  l <- dpStr
-  lapply(l$resources,function(x){
-    # x <- l$resources[[1]]
-    ae_resource_info <- x$ae_resource_info
-    ae_fields_info <- lapply(x$schema$fields,function(y){y$ae_field_info})
-    list(ae_resource_info = ae_resource_info, ae_fields_info =  ae_fields_info)
-  })     
 }

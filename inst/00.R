@@ -172,6 +172,7 @@ library(devtools)
 load_all()
 dpPath <- system.file("cadastro-dp", package="datapackager")
 dp <- readDatapackage(dpPath)
+
 df <- read.csv(file.path(dpPath,"cadastro.csv"), stringsAsFactors=FALSE)
 #writeDatapackage(dp,dpPath)
 
@@ -185,6 +186,13 @@ dp2 <- newDatapkg(df2)
 getDatatypes(dp2)
 str(getDataframe(dp))
 
+### Check selection
+library(devtools)
+load_all()
+dpPath <- system.file("CDDNdatapackage", package="datapackager")
+dp <- readDatapackage(dpPath)
+
+str(getDpSelection(dp, cols = c("b","d")))
 
 ### Check structure
 #### OJO mapply might help

@@ -195,6 +195,9 @@ str(getDataframe(dp, withNames=TRUE))
 dpout <- getDpSelection(dp, cols = c("b","d"))
 str(getDataframe(dpout, withNames=TRUE))
 
+dpout2 <- getDpSelectionByName(dp, cols = c("Last.email.send.date","Emails.Delivered", "First.email.send.date"))
+str(getDataframe(dpout2, withNames=TRUE))
+
 ### Check structure
 #### OJO mapply might help
 

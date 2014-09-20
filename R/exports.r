@@ -301,6 +301,21 @@ getDpSelection <- function(dp, dtIdx = 1, cols = c()){
 }
 
 
+#' Set fieldnames in a list
+#' @name getDpSelectionByName
+#' @description Set fieldnames by resource index
+#' @param dp datapackage
+#' @return dp with updated fieldanmes
+#' @export
+#' @examples \dontrun{
+#' }
+getDpSelectionByName <- function(dp, dtIdx = 1, cols = c()){
+  # cols <- c("disp","mpg")
+  colNms <- getFieldNamesByIdx(dp, dtIdx = dtIdx)
+  colsIds <- letters[match(cols, colNms)]
+  getDpSelection(dp, dtIdx = dtIdx, cols = colsIds) 
+}
+
 
 #' Datapackage to JSON, removes data before transforming to JSON
 #' @name dpToJSON

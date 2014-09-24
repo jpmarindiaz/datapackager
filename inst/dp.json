@@ -19,6 +19,7 @@
         "id": "tableA",
         "description": "my description",
         "path": "http://aedata.com/data/test.csv",
+        "url":"http://amazonurl.com",
         "mediatype": "text/csv",
         "format": "csv",
         "dialect": {
@@ -54,6 +55,7 @@
         "id": "tableB",
         "description": "my description",
         "path": "data/test.csv",
+        "url": "http://otherurl.com",
         "remote": {
             "security": "public",
             "remote": ""

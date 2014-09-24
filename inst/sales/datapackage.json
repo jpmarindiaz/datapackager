@@ -1,6 +1,7 @@
 
 {
-"name": "sales-Datapackage",
+"name": "list(sales_history, product_hierarchy[, c("product", "sublinea")])Datapackage",
+"license": "PDDL-1.0",
 "resources": 
 [ 
 {
@@ -11,7 +12,7 @@
 "id": "table1",
 "public": "true",
 "resource_type": "tbl",
-"record_name"
+"record_name": "transaction"
 }
 ,
 "mediatype": "text/csv",
@@ -95,9 +96,10 @@
 "path": "table2.csv",
 "ae_resource_info": 
 {
-"id": "table2",
+"id": "table1",
 "public": "true",
-"resource_type": "tbl"
+"resource_type": "tbl",
+"record_name": "observation unit"
 }
 ,
 "mediatype": "text/csv",

@@ -68,6 +68,7 @@ Datapackage <- setRefClass('Datapackage',
                             tbl <- Datatbl$new(name=resource$name,
                                                description = resource$description,
                                                path = resource$path,
+                                               url = resource$url,
                                                dialect = list(delimiter=unname(resource$dialect)),
                                                schema = list(fields= fieldsList),
                                                data = data.frame())

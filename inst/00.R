@@ -7,13 +7,13 @@ fld1 <- Field$new(name="contry name",
                    description="iso name",
                    type="string",
                    format="XX",
-                   attributes=list(id="a", datatype = "C")
+                  ae_field_info=list(id="a", datatype = "C")
                    )
 fld2 <- Field$new(name="value",
                   description="population number",
                   type="number",
                   format="int",
-                  attributes=list(id="b", datatype = "N")
+                  ae_field_info=list(id="b", datatype = "N")
 )
 
 cat(listToJSON(list(fld1,fld2)))
@@ -21,6 +21,7 @@ cat(listToJSON(list(fld1,fld2)))
 tbl <- Datatbl$new(name="tablaA",
             description = "my description",
             path = "data/test.csv",
+            url = "http://hola.com",
             dialect = list(delimiter=","),
             schema = list(fields=list(fld1,fld2)),
             data = data.frame())
@@ -158,6 +159,7 @@ setFieldNames(dp,list(table1=c("x","y","z","w"),table2=c("prod","lin")))
 
 
 ## TEST setRecordName
+library(devtools)
 load_all()
 document()
 dpPath <- system.file("sales-dp", package="datapackager")
@@ -165,7 +167,7 @@ dp <- readDatapackage(dpPath)
 getRecordName(dp)
 head(getDataframe(dp, withNames = TRUE))
 setRecordName(dp, "transaction")
-
+writeDatapackage(dp,"inst/sales")
 
 ## TEST POSIX lubridate
 library(devtools)

@@ -8,6 +8,7 @@ Datatbl <- setRefClass('Datatbl',
       name = "character",
       description = "character",
       path = "character",
+      url = "character",
       ae_resource_info = "list",
       mediatype = "character",
       format = "character",
@@ -20,6 +21,7 @@ Datatbl <- setRefClass('Datatbl',
                             name = "",
                             description = "",
                             path = "",
+                            url = "",
                             ae_resource_info = list(id="table1", 
                                                     public="true",
                                                     resource_type="tbl",
@@ -33,6 +35,7 @@ Datatbl <- setRefClass('Datatbl',
         name <<- name
         description <<- description  %||% ""
         path <<- path  %||% ""
+        url <<- url  %||% ""
         ae_resource_info <<- ae_resource_info %||% list(id=name,public="true",resource_type="tbl", record_name="observation unit")
         mediatype <<- mediatype
         format <<- format

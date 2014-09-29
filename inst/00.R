@@ -194,6 +194,7 @@ load_all()
 dpPath <- system.file("CDDNdatapackage", package="datapackager")
 dp <- readDatapackage(dpPath)
 str(getDataframe(dp, withNames=TRUE))
+dpout <- getDpSelection(dp)
 dpout <- getDpSelection(dp, cols = c("b","d"))
 str(getDataframe(dpout, withNames=TRUE))
 

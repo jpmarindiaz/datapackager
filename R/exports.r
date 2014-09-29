@@ -277,10 +277,11 @@ setFieldNames <- function(dp, fieldNames){
 #' @export
 #' @examples \dontrun{
 #' }
-getDpSelection <- function(dp, dtIdx = 1, cols = c()){
+getDpSelection <- function(dp, dtIdx = 1, cols = NULL){
   #cols <- c("a","b")
   #dtIdx <- 1
-  df <- getDataframe(dp, dtIdx = dtIdx)  
+  df <- getDataframe(dp, dtIdx = dtIdx) 
+  cols <- cols %||% names(df) 
   dtypes <- getDatatypeByIdx(dp,dtIdx)
   dtypes <- strsplit(dtypes,"")[[1]]
   names(dtypes) <- letters[1:length(dtypes)]

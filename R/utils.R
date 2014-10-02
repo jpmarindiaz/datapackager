@@ -1,18 +1,4 @@
-forceDatatype <- function(df, datatypes, pasted=TRUE){
-  dtypes <- datatypes
-  if(pasted) dtypes <- strsplit(datatypes, "")[[1]]
-  if(ncol(df)!= length(dtypes)) stop("number of df cols must be the same as data types length")
-  for (i in seq_along(dtypes)){
-    if(dtypes[i]=="N"){df[,i]<- as.numeric(df[,i])}
-    if(dtypes[i]=="C"){df[,i]<- as.factor(df[,i])}
-    if(dtypes[i]=="D"){
-      d <- as.Date(df[,i])
-      d <- as.POSIXct(df[,i])
-      df[,i]<- d
-    } 
-  }  
-  df
-} 
+ 
 
 
 `%||%` <- function (x, y) 

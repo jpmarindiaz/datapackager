@@ -8,9 +8,11 @@
 #' dp <- newDatapkg(mtcars)
 #' }
 
-newDatapkg <- function(d, name=NULL){
+newDatapkg <- function(d, name=NULL, datatypes = NULL){
   if(class(d) == "data.frame"){     
     tblName <- deparse(substitute(d))
+    datatypes <- datatypes %||% guessDatatype(d)
+    d <- forceDatatype(d,datatypes)
     tbl <- newDatatblFromDataframe(d, tblName)
     name <- name %||% paste0("Datapackage-",tblName)
     dp <- Datapackage$new(name=name,
@@ -137,6 +139,8 @@ getDataframe <- function(dp, dtIdx = 1, withNames = FALSE){
   df <- dp$resources[[dtIdx]]$data
   if(withNames) names(df) <- getFieldNamesByIdx(dp, dtIdx)
   df
+  #getDatatypeByIdx(dp, Idx)
+  #forceDatatype(df, )
 }
 
 

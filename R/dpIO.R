@@ -1,3 +1,54 @@
+#' @export
+readDfString <- function(pasted){
+  #pasted <- ""
+  df <- read.table(text=pasted,sep="\t",header=TRUE, fill=TRUE,row.names=NULL,stringsAsFactors = FALSE)
+  
+  for (i in 1:ncol(df)){
+    col <- df[,i]
+    if(class(df[,i])=="character"){
+      try({ 
+        col <- as.Date(df[,i])
+        col <- as.POSIXct(df[,i])
+      }, silent = TRUE)  
+    }
+    df[,i] <- col
+  }
+  
+  df
+}
+
+#' @export
+guessDatatype <- function(df){  
+  l <- lapply(df, function(c){
+    out <- "C"
+    if(class(c) %in% c("integer","numeric")) out <- "N"
+    try({ 
+      c <- as.Date(c)
+      c <- as.POSIXct(c)
+    }, silent = TRUE)  
+    if(class(c)[1] %in% c("Date","POSIXt", "POSIXct")) out <- "D"
+    out
+  })
+  unlist(paste(l,collapse=""))
+}
+
+#' @export
+forceDatatype <- function(df, datatypes, pasted=TRUE){
+  dtypes <- datatypes
+  if(pasted) dtypes <- strsplit(datatypes, "")[[1]]
+  if(ncol(df)!= length(dtypes)) stop("number of df cols must be the same as data types length")
+  for (i in seq_along(dtypes)){
+    if(dtypes[i]=="N"){df[,i]<- as.numeric(df[,i])}
+    if(dtypes[i]=="C"){df[,i]<- as.character(df[,i])}
+    if(dtypes[i]=="D"){
+      d <- as.Date(df[,i])
+      d <- as.POSIXct(df[,i])
+      df[,i]<- d
+    } 
+  }  
+  df
+}
+
 
 #' Load data in a data frame
 #' @name loadDpDataByIdx

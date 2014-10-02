@@ -110,6 +110,20 @@ tarsila::runTarsila(dp,vizId)
 df <- getDataframes(dp)
 
 
+#### Read df as string
+library(devtools)
+load_all()
+
+dfstr <- "Segmento  Rango.Sell.In	Equipo	Marca	week	qt
+M Mpx	425 to 450	C905 SONY	SONY ERICSSON	2009-01-01	0
+M Mpx	450 to 500	M8800 PIXON SAMSUNG	SAMSUNG	2009-01-01	0
+5 Mpx	200 to 225	SGH-F480 TOUCH WIZ SAMSUNG	SAMSUNG	2009-01-01	1047
+5 Mpx	450 to 500	N95 NOKIA	NOKIA	2009-01-01	915"
+
+df <- readDfString(dfstr)
+str(df)
+str(forceDatatype(df, "CCCCDN"))
+
 
 ### Simple dp
 

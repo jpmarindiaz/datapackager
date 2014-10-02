@@ -3,7 +3,7 @@
 \alias{getDpSelection}
 \title{Set fieldnames in a list}
 \usage{
-getDpSelection(dp, dtIdx = 1, cols = c())
+getDpSelection(dp, dtIdx = 1, cols = NULL)
 }
 \arguments{
 \item{dp}{datapackage}

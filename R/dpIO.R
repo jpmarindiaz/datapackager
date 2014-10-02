@@ -1,4 +1,11 @@
+#' Load data in a data frame
+#' @name readDfString
+#' @description #' Load data in a data frame by reading the paths of the resources
+#' @param Datapkg to load the data from by resource index.
+#' @return Datapgk with updated data field
 #' @export
+#' @examples \dontrun{
+#' }
 readDfString <- function(pasted){
   #pasted <- ""
   df <- read.table(text=pasted,sep="\t",header=TRUE, fill=TRUE,row.names=NULL,stringsAsFactors = FALSE)

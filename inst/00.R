@@ -222,6 +222,7 @@ d[idx] <- ""
 d <- as.data.frame(d)
 dp <- newDatapkg(d)
 dpout <- getDpSelection(dp, opts = list(noEmpty=TRUE))
+dpout <- getDpSelectionByName(dp, cols=names(d)[1:3], opts = list(noEmpty=TRUE))
 getDataframe(dpout)
 
 

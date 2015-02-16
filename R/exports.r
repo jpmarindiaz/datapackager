@@ -321,11 +321,14 @@ getDpSelection <- function(dp, dtIdx = 1, cols = NULL,
 #' @export
 #' @examples \dontrun{
 #' }
-getDpSelectionByName <- function(dp, dtIdx = 1, cols = c()){
+getDpSelectionByName <- function(dp, dtIdx = 1, cols = c(),
+                                 opts = list(unique=FALSE,
+                                             noEmpty = FALSE
+                                 )){
   # cols <- c("disp","mpg")
   colNms <- getFieldNamesByIdx(dp, dtIdx = dtIdx)
   colsIds <- letters[match(cols, colNms)]
-  getDpSelection(dp, dtIdx = dtIdx, cols = colsIds) 
+  getDpSelection(dp, dtIdx = dtIdx, cols = colsIds, opts = opts) 
 }
 
 

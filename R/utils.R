@@ -3,7 +3,7 @@
 
 `%||%` <- function (x, y) 
 {
-  if (is.empty(x)) 
+  if (is.empty2(x)) 
     return(y)
   else if (is.null(x) || is.na(x))
     return(y)
@@ -12,7 +12,7 @@
   else x
 }
 
-is.empty <- function(x){
+is.empty2 <- function(x){
   #   !is.null(x)
   !as.logical(length(x))  
 }

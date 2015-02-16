@@ -215,6 +215,16 @@ str(getDataframe(dpout, withNames=TRUE))
 dpout2 <- getDpSelectionByName(dp, cols = c("Last.email.send.date","Emails.Delivered", "First.email.send.date"))
 str(getDataframe(dpout2, withNames=TRUE))
 
+d <- mtcars
+d <- as.matrix(d)
+idx <- runif(50, min = 1, max = length(d))
+d[idx] <- ""
+d <- as.data.frame(d)
+dp <- newDatapkg(d)
+dpout <- getDpSelection(dp, opts = list(noEmpty=TRUE))
+getDataframe(dpout)
+
+
 ### Check structure
 #### OJO mapply might help
 

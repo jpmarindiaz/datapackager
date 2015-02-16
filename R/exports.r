@@ -281,7 +281,10 @@ setFieldNames <- function(dp, fieldNames){
 #' @export
 #' @examples \dontrun{
 #' }
-getDpSelection <- function(dp, dtIdx = 1, cols = NULL){
+getDpSelection <- function(dp, dtIdx = 1, cols = NULL, 
+                           opts = list(unique=FALSE,
+                                       noEmpty = FALSE
+                                       )){
   #cols <- c("a","b")
   #dtIdx <- 1
   df <- getDataframe(dp, dtIdx = dtIdx) 
@@ -302,6 +305,10 @@ getDpSelection <- function(dp, dtIdx = 1, cols = NULL){
   }  
   d <- forceDatatype(dfout, dtypes, pasted= FALSE)
   names(d) <- nms[cols]
+  opts$unique <- opts$unique %||% FALSE 
+  opts$noEmpty <- opts$noEmpty %||% FALSE 
+  if(opts$unique){d <- d[!duplicated(d),]}
+  if(opts$noEmpty){d <- d[!is.empty(d),]}
   dpout <- newDatapkg(d)  
 }
 
